@@ -4,44 +4,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>MicroSocial – Feed</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* ===== Custom Scrollbar (Global) ===== */
+
+        /* Firefox */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #22c55e transparent;
+        }
+
+        /* Chrome, Edge, Safari */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(34, 197, 94, 0.6);
+            border-radius: 999px;
+            border: 2px solid transparent;
+            background-clip: content-box;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(34, 197, 94, 0.85);
+        }
+    </style>
+
 </head>
 
-<body>
-    <div class="main w-full min-h-screen bg-zinc-900 text-white p-10">
-        <div class="flex justify-center mb-10 cursor-pointer" href="/">
-            <a href="/"><span class="text-5xl">Micro</span><span class="text-5xl text-green-400 font-bold">Social</span></a>
-        </div>
-        <div class="mb-10 flex justify-between items-center">
-            <div class="flex gap-64 items-center">
-                <span class="text-green-400 text-3xl font-bold">Your Feed</span>
-                <a href="/" class="text-yellow-400 text-xl font-bold">Home</a>
+<body class="bg-zinc-900 text-white min-h-screen">
+
+    <nav class="sticky top-0 z-50 bg-zinc-900/80 backdrop-blur border-b border-zinc-800">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
+
+            <a href="/home" class="flex items-center gap-1 hover:opacity-90 transition">
+                <span class="text-2xl md:text-3xl">Micro</span>
+                <span class="text-2xl md:text-3xl text-green-400 font-bold">Social</span>
+            </a>
+
+            <div class="flex items-center gap-6">
+                <a href="/profile" class="text-zinc-400 md:text-xl font-semibold hover:text-green-400 transition">
+                    @<%= user.username %>
+                </a>
             </div>
-            
-                <a href="/profile" class="text-blue-400 text-xl font-semibold"><%= user.name %></a>
+
+        </div>
+    </nav>
+
+    <main class="max-w-2xl mx-auto px-4 py-10">
+
+        <div class="flex justify-between">
+            <h2 class="text-2xl md:text-3xl font-bold text-green-400 mb-8">
+                Your Feed
+            </h2>
+            <a href="/home" class="text-yellow-400 text-xl font-bold transition-all duration-300 ease-out hover:scale-105 hover:brightness-110 active:scale-95">Home</a>
         </div>
 
-        <div class="postContainer flex flex-col gap-4 md:items-start items-center">
+        <div class="flex flex-col gap-6">
             <% posts.forEach(function(post){ %>
-                <div class="post md:w-1/3 w-[80%] p-4 rounded-md border-2 border-zinc-700 bg-zinc-800">
-                    <h4 class="text-green-400 font-bold mb-3">@<%= post.user.username %>
-                    </h4>
-                    <p class="tracking-tight text-zinc-300">
+
+                <div class="bg-zinc-800 border border-zinc-700 rounded-xl p-5
+                        transition-all duration-300
+                        hover:-translate-y-1
+                        hover:border-zinc-600">
+
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-green-400 font-bold">
+                            @<%= post.user.username %>
+                        </span>
+                    </div>
+
+                    <p class="text-zinc-300 leading-relaxed mb-4">
                         <%= post.content %>
                     </p>
-                    <small class="">
-                        <%= post.likes.length %> ♥
-                    </small>
-                    <div class="btns">
-                        <a class="text-pink-600 mt-3" href="/like/<%= post._id %>?from=feed">
-                            <%= post.likes.indexOf(currentUser.userid)===-1 ? "Like" : "Unlike" %>
+
+
+
+                    <div class="flex items-center justify-between gap-4 text-sm">
+
+                        <a href="/like/<%= post._id %>?from=feed" class="flex items-center gap-1 font-semibold
+                              transition-all duration-200
+                              <%= post.likes.indexOf(currentUser.userid) === -1 
+                                  ? 'text-zinc-400 hover:text-pink-500' 
+                                  : 'text-pink-500' %>
+                              hover:scale-105">
+                            ♥ <span>
+                                <%= post.likes.length %>
+                            </span>
+                           
                         </a>
+                         <span class="text-xs text-zinc-400 font-bold">
+                                <%= post.timeAgo %>
+                            </span>
+
                     </div>
+
                 </div>
+
                 <% }) %>
+
+                    <% if(posts.length===0){ %>
+                        <div class="text-center text-zinc-500 mt-10">
+                            No posts yet. Be the first one to post something 👀
+                        </div>
+                        <% } %>
+
         </div>
-    </div>
+
+    </main>
+
 </body>
 
 </html>

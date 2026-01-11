@@ -1,50 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>MicroSocial – Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+/* ===== Custom Scrollbar (Global) ===== */
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #22c55e transparent;
+}
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(34, 197, 94, 0.6);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(34, 197, 94, 0.85);
+}
+</style>
+
+    <style>
+/* ===== Custom Scrollbar (Global) ===== */
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #22c55e transparent;
+}
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(34, 197, 94, 0.6);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(34, 197, 94, 0.85);
+}
+</style>
+
 </head>
+<script>
+  const form = document.querySelector("form");
+  const btn = document.getElementById("postBtn");
 
-<body>
-    <div class="main w-full min-h-screen bg-zinc-900 text-white p-10">
-        <div class="flex justify-between mb-5">
-            <h3 class="text-3xl">Hello, <span class="text-green-400 font-bold tracking-tight"><%= user.name %></span></h3>
-            <div class="flex gap-4">    
-                <a href="/logout" class="bg-red-600 px-3 py-2 rounded-md">Logout</a>
-                <a href="/feed" class="bg-green-400 px-3 py-2 rounded-md">Feed</a>
+  form.addEventListener("submit", () => {
+    btn.value = "Posting...";
+    btn.disabled = true;
+    btn.classList.add("opacity-70", "cursor-not-allowed");
+  });
+</script>
+
+
+<body class="bg-zinc-900 text-white min-h-screen">
+
+    <main class="max-w-5xl mx-auto px-4 py-10">
+
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
+
+            <h3 class="text-2xl md:text-3xl">
+                Hello,
+                <span class="text-green-400 font-bold tracking-tight">
+                    <%= user.name %>
+                </span>
+            </h3>
+
+            <div class="flex gap-4">
+                <a href="/feed"
+                   class="px-4 py-2 bg-yellow-500 text-zinc-900 font-bold rounded-md
+                          transition-all duration-300 ease-out
+                          hover:scale-105 hover:brightness-110
+                          hover:shadow-[0_0_40px_rgba(234,179,8,0.8)]
+                          active:scale-95">
+                    Explore Feed
+                </a>
+
+                <a href="/logout"
+                   onclick="return confirm('Do you really want to Logout?')"
+                   class="px-4 py-2 bg-red-600 text-zinc-900 font-bold rounded-md
+                          transition-all duration-300 ease-out
+                          hover:scale-105 hover:brightness-110
+                          hover:shadow-[0_0_30px_rgba(239,68,68,0.75)]
+                          active:scale-95">
+                    Logout
+                </a>
             </div>
         </div>
 
-        <h5 class="text-blue-400 mb-5">Create a new post.</h5>
-        <form action="/post" method="POST">
-            <textarea name="content" placeholder="What's on your mind ?"
-                class="block md:w-1/3 w-[80%] p-3 mb-5 outline-none resize-none bg-transparent border-2 border-zinc-700 rounded-md"></textarea>
-            <input type="submit" class="bg-blue-500 block px-3 py-2 rounded-md text-sm font-bold" value="Create Post">
-        </form>
+        <section class="mb-16">
+            <h5 class="text-zinc-300 mb-4">Create a new post</h5>
 
-        <div class="posts mt-20">
-            <h5 class="text-blue-400 mb-5">Your Posts.</h5>
-            <div class="postContainer flex flex-col gap-4 max-h-72 overflow-y-scroll">
+            <div class="bg-zinc-800 border border-zinc-700 rounded-xl p-5 max-w-xl">
+                <form action="/post" method="POST">
+                    <textarea
+                        name="content"
+                        placeholder="What's on your mind?"
+                        required
+                        minlength="1"
+                        class="w-full p-3 mb-4 bg-transparent border border-zinc-700 rounded-md
+                               outline-none resize-none text-zinc-200
+                               focus:border-green-500 transition"
+                    ></textarea>
+
+                    <input
+                        type="submit"
+                        value="Create Post"
+                        id="postBtn"
+                        class="bg-green-500 text-zinc-900 font-bold px-4 py-2 rounded-md
+                               transition-all duration-300 ease-out
+                               hover:scale-105 hover:brightness-110
+                               hover:shadow-[0_0_30px_rgba(34,197,94,0.6)]
+                               active:scale-95"
+                    >
+                </form>
+            </div>
+        </section>
+
+        <section>
+            <h5 class="text-zinc-300 mb-6">Your Posts</h5>
+
+            <div class="flex flex-col gap-6 max-h-[420px] overflow-y-auto pr-1">
+
                 <% user.posts.reverse().forEach(function(post){ %>
-                    <div class="post md:w-1/3 w-[80%] p-4 rounded-md border-2 border-zinc-700 bg-zinc-800">
-                        <h4 class="text-green-400 font-bold mb-3">@<%= user.username %>
-                        </h4>
-                        <p class="tracking-tight text-zinc-300"><%= post.content %></p>
-                        <small class=""><%= post.likes.length %> ♥</small>
-                        <div class="btns flex gap-4">
-                            <a class="text-pink-600 mt-3" href="/like/<%= post._id %>"><%= post.likes.indexOf(user._id) === -1 ? "Like" : "Unlike" %></a>
-                            <a class="text-zinc-400 mt-3" href="/edit/<%= post._id %>">edit</a>
-                            <a class="text-red-500 mt-3" onclick="return confirm('Do you really want to DELETE this Post?')" href="/delete/<%= post._id %>">Delete</a>
-                        </div>
+
+                <div class="bg-zinc-800 border border-zinc-700 rounded-xl p-5
+                            transition-all duration-300
+                            hover:-translate-y-1 hover:border-zinc-600">
+
+                    <div class="mb-3">
+                        <span class="text-green-400 font-bold">
+                            @<%= user.username %>
+                        </span>
                     </div>
-                    <% }) %>
+
+                    <p class="text-zinc-300 leading-relaxed mb-4">
+                        <%= post.content %>
+                    </p>
+
+                    <div class="flex items-center gap-6 text-sm">
+
+                        <a href="/like/<%= post._id %>"
+                           class="font-semibold
+                                  transition-all duration-200
+                                  <%= post.likes.indexOf(user._id) === -1 
+                                      ? 'text-zinc-400 hover:text-pink-500' 
+                                      : 'text-pink-500' %>
+                                  hover:scale-105">
+                            ♥ <%= post.likes.length %>
+                        </a>
+
+                        <a href="/edit/<%= post._id %>"
+                           class="text-zinc-400 hover:text-green-400 transition">
+                            Edit
+                        </a>
+
+                        <a href="/delete/<%= post._id %>"
+                           onclick="return confirm('Do you really want to DELETE this Post?')"
+                           class="text-red-500 hover:text-red-400 transition">
+                            Delete
+                        </a>
+
+                    </div>
+                </div>
+
+                <% }) %>
+
+                <% if(user.posts.length === 0){ %>
+                    <div class="text-zinc-500 text-center mt-10">
+                        You haven’t posted anything yet.
+                    </div>
+                <% } %>
 
             </div>
-        </div>
-    </div>
-</body>
+        </section>
 
+    </main>
+
+</body>
 </html>
