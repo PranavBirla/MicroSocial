@@ -66,17 +66,6 @@
 </style>
 
 </head>
-<script>
-  const form = document.querySelector("form");
-  const btn = document.getElementById("postBtn");
-
-  form.addEventListener("submit", () => {
-    btn.value = "Posting...";
-    btn.disabled = true;
-    btn.classList.add("opacity-70", "cursor-not-allowed");
-  });
-</script>
-
 
 <body class="bg-zinc-900 text-white min-h-screen">
 
@@ -203,4 +192,17 @@
     </main>
 
 </body>
+
+
+<script>
+  const form = document.querySelector("form");
+  const btn = document.getElementById("postBtn");
+
+  form.addEventListener("submit", () => {
+    btn.value = "Posting...";
+    btn.disabled = true;
+    btn.classList.add("opacity-70", "cursor-not-allowed");
+  });
+</script>
+
 </html>

@@ -37,16 +37,7 @@
 </style>
 
 </head>
-<script>
-  const form = document.querySelector("form");
-  const btn = document.getElementById("createBtn");
 
-  form.addEventListener("submit", () => {
-    btn.value = "Creating...";
-    btn.disabled = true;
-    btn.classList.add("opacity-70", "cursor-not-allowed");
-  });
-</script>
 
 
 <body>
@@ -80,5 +71,16 @@
         </div>
     </div>
 </body>
+
+<script>
+  const form = document.querySelector("form");
+  const btn = document.getElementById("createBtn");
+
+  form.addEventListener("submit", () => {
+    btn.value = "Creating...";
+    btn.disabled = true;
+    btn.classList.add("opacity-70", "cursor-not-allowed");
+  });
+</script>
 
 </html>

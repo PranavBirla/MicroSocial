@@ -37,16 +37,6 @@
 </style>
 
 </head>
-<script>
-  const form = document.querySelector("form");
-  const btn = document.getElementById("UpdateBtn");
-
-  form.addEventListener("submit", () => {
-    btn.value = "Updating...";
-    btn.disabled = true;
-    btn.classList.add("opacity-70", "cursor-not-allowed");
-  });
-</script>
 
 
 <body>
@@ -65,5 +55,16 @@ hover:scale-105 hover:brightness-110 hover:shadow-[0_0_30px_rgba(34,197,94,0.6)]
         </div>
     </div>
 </body>
+
+<script>
+  const form = document.querySelector("form");
+  const btn = document.getElementById("UpdateBtn");
+
+  form.addEventListener("submit", () => {
+    btn.value = "Updating...";
+    btn.disabled = true;
+    btn.classList.add("opacity-70", "cursor-not-allowed");
+  });
+</script>
 
 </html>
