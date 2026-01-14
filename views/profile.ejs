@@ -127,17 +127,39 @@
 
             <div class="bg-zinc-800 border border-zinc-700 rounded-xl p-5 max-w-xl">
                 <form action="/post" method="POST" enctype="multipart/form-data">
-                    <textarea name="content" placeholder="What's on your mind?" required minlength="1" class="w-full p-3 mb-4 bg-transparent border border-zinc-700 rounded-md
+                    <textarea name="content" placeholder="Write the text here!" required minlength="1" class="w-full p-3 mb-4 bg-transparent border border-zinc-700 rounded-md
                                outline-none resize-none text-zinc-200
                                focus:border-green-500 transition"></textarea>
 
-                    <input type="file" name="image" accept="image/*" class="mb-4 text-zinc-400">
+                    <input type="file" name="image" id="imageInput" accept="image/*" class="hidden" required>
+
+                    <label for="imageInput" class="cursor-pointer inline-flex items-center justify-center
+               px-4 py-2 rounded-md
+               bg-zinc-800 border border-zinc-700
+               text-zinc-200 font-semibold
+               transition-all duration-300
+               hover:border-green-500
+               hover:text-green-400
+               hover:shadow-[0_0_25px_rgba(34,197,94,0.4)]
+               hover:scale-105
+               active:scale-95">
+                        Choose Image
+                    </label>
 
                     <input type="submit" value="Create Post" id="postBtn" class="bg-green-500 text-zinc-900 font-bold px-4 py-2 rounded-md
                                transition-all duration-300 ease-out
                                hover:scale-105 hover:brightness-110
                                hover:shadow-[0_0_30px_rgba(34,197,94,0.6)]
                                active:scale-95">
+
+
+
+                    <div id="imagePreviewWrapper" class="mt-4 hidden">
+                        <div class="h-48 w-full rounded-lg overflow-hidden border border-zinc-700">
+                            <img id="imagePreview" class="h-full w-full object-cover" src="" alt="Image Preview">
+                        </div>
+                    </div>
+
                 </form>
             </div>
         </section>
@@ -145,7 +167,7 @@
         <section>
             <h5 class="text-zinc-300 mb-6">Your Posts</h5>
 
-            <div class="flex flex-col gap-6 max-h-[420px] overflow-y-auto pr-1">
+            <div class="flex flex-col gap-6 max-h-[700px] overflow-y-auto pr-1">
 
                 <% user.posts.reverse().forEach(function(post){ %>
 
@@ -162,8 +184,8 @@
                         <div class="flex gap-5 md:flex-row flex-col items-center md:items-start mb-5 ">
 
                             <% if (post.image) { %>
-                                <div class="h-80 w-80 bg-red-500 rounded-md overflow-hidden">
-                                    <img class="h-full w-full object-cover" src="<%= post.image %>" alt="">
+                                <div class="min-h-80 min-w-80 rounded-md overflow-hidden">
+                                    <img class="h-80 w-80 object-cover" src="<%= post.image %>" alt="">
                                 </div>
                                 <% } %>
 
@@ -215,12 +237,37 @@
 <script>
     const form = document.querySelector("form");
     const btn = document.getElementById("postBtn");
+    const imageInput = document.getElementById("imageInput");
+    const previewWrapper = document.getElementById("imagePreviewWrapper");
+    const previewImage = document.getElementById("imagePreview");
 
     form.addEventListener("submit", () => {
         btn.value = "Posting...";
         btn.disabled = true;
         btn.classList.add("opacity-70", "cursor-not-allowed");
     });
+
+    form.addEventListener("submit", () => {
+        btn.value = "Posting...";
+        btn.disabled = true;
+        btn.classList.add("opacity-70", "cursor-not-allowed");
+    });
+
+    
+    imageInput.addEventListener("change", () => {
+        const file = imageInput.files[0];
+
+        if (!file) {
+            previewWrapper.classList.add("hidden");
+            previewImage.src = "";
+            return;
+        }
+
+        previewImage.src = URL.createObjectURL(file);
+        previewWrapper.classList.remove("hidden");
+    });
 </script>
+
+
 
 </html>

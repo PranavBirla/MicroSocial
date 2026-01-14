@@ -19,32 +19,41 @@
 
             <form action="/profile/image" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4">
 
-                <input
-                    type="file"
-                    name="image"
-                    accept="image/*"
-                    required
-                    class="text-zinc-300">
 
-                <input
-                    type="submit"
-                    value="Upload Image"
-                    class="px-4 py-2 bg-yellow-500 text-zinc-900 font-bold rounded-md
-                           transition-all duration-300 ease-out
-                           hover:scale-105 hover:brightness-110
-                           hover:shadow-[0_0_35px_rgba(234,179,8,0.7)]
-                           active:scale-95">
+                <input type="file" name="image" id="imageInput" accept="image/*" class="hidden">
+
+                <div class="flex gap-5">
+                    <label for="imageInput" class="cursor-pointer inline-flex items-center justify-center
+               px-4 py-2 rounded-md
+               bg-zinc-800 border border-zinc-700
+               text-zinc-200 font-semibold
+               transition-all duration-300
+               hover:border-green-500
+               hover:text-green-400
+               hover:shadow-[0_0_25px_rgba(34,197,94,0.4)]
+               hover:scale-105
+               active:scale-95">
+                        Choose Image
+                    </label>
+
+                    <button type="submit" class="bg-yellow-500 text-zinc-900 font-bold px-4 py-2 rounded-md
+               transition-all duration-300
+               hover:scale-105 hover:brightness-110
+               hover:shadow-[0_0_35px_rgba(234,179,8,0.7)]
+               active:scale-95">
+                        Upload Image
+                    </button>
+                </div>
+
             </form>
 
-            <!-- Image Preview -->
+
+
             <div class="mt-6 flex flex-col items-center gap-2">
                 <span class="text-zinc-400 text-sm">Current / Preview</span>
 
                 <div class="h-40 w-40 rounded-xl overflow-hidden border border-zinc-700">
-                    <img
-                        id="previewImage"
-                        class="h-full w-full object-cover"
-                        src="<%= user.profileImage %>"
+                    <img id="previewImage" class="h-full w-full object-cover" src="<%= user.profileImage %>"
                         alt="Profile Preview">
                 </div>
             </div>
@@ -59,7 +68,6 @@
 
     </div>
 
-    <!-- OPTIONAL: Instant preview on file select -->
     <script>
         const fileInput = document.querySelector('input[type="file"]');
         const previewImage = document.getElementById("previewImage");

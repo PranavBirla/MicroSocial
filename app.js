@@ -23,11 +23,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get("/",  (req, res) => {
+app.get("/", (req, res) => {
     res.render("index");
 });
 
-app.get("/create",  (req, res) => {
+app.get("/create", (req, res) => {
     res.render("create")
 })
 
@@ -46,7 +46,7 @@ app.post("/profile/image", isLoggedIn, upload.single("image"), async (req, res, 
     console.log("REQ.FILE =", req.file);
     try {
         const result = await uploadToCloudinary(req.file.buffer, "microsocial/profile");
-        await userModel.findOneAndUpdate({email: req.user.email}, { profileImage: result.secure_url });
+        await userModel.findOneAndUpdate({ email: req.user.email }, { profileImage: result.secure_url });
         res.redirect("/profile");
     } catch (err) {
         console.log(err)
@@ -55,13 +55,13 @@ app.post("/profile/image", isLoggedIn, upload.single("image"), async (req, res, 
 }
 );
 
-app.get("/login",  (req, res) => {
+app.get("/login", (req, res) => {
     res.render("login");
 });
 
 app.get("/profile", isLoggedIn, async (req, res) => {
     let user = await userModel.findOne({ email: req.user.email }).populate("posts");
-    res.render("profile", { user});
+    res.render("profile", { user });
 });
 
 app.get("/like/:id", isLoggedIn, async (req, res) => {
@@ -121,7 +121,7 @@ app.post("/post", isLoggedIn, upload.single("image"), async (req, res, next) => 
         let imageUrl = "";
 
         if (req.file) {
-            const result = await uploadToCloudinary( req.file.buffer, "microsocial/posts");
+            const result = await uploadToCloudinary(req.file.buffer, "microsocial/posts");
             imageUrl = result.secure_url;
         }
 
@@ -131,7 +131,7 @@ app.post("/post", isLoggedIn, upload.single("image"), async (req, res, next) => 
             image: imageUrl
         });
 
-        await userModel.findOneAndUpdate({email: req.user.email}, {
+        await userModel.findOneAndUpdate({ email: req.user.email }, {
             $push: { posts: post._id }
         });
 
