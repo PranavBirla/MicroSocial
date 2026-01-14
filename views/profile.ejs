@@ -1,69 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MicroSocial – Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-/* ===== Custom Scrollbar (Global) ===== */
+        /* ===== Custom Scrollbar (Global) ===== */
 
-/* Firefox */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: #22c55e transparent;
-}
+        /* Firefox */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #22c55e transparent;
+        }
 
-/* Chrome, Edge, Safari */
-::-webkit-scrollbar {
-  width: 8px;
-}
+        /* Chrome, Edge, Safari */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
 
-::-webkit-scrollbar-thumb {
-  background-color: rgba(34, 197, 94, 0.6);
-  border-radius: 999px;
-  border: 2px solid transparent;
-  background-clip: content-box;
-}
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(34, 197, 94, 0.6);
+            border-radius: 999px;
+            border: 2px solid transparent;
+            background-clip: content-box;
+        }
 
-::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(34, 197, 94, 0.85);
-}
-</style>
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(34, 197, 94, 0.85);
+        }
+    </style>
 
     <style>
-/* ===== Custom Scrollbar (Global) ===== */
+        /* ===== Custom Scrollbar (Global) ===== */
 
-/* Firefox */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: #22c55e transparent;
-}
+        /* Firefox */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #22c55e transparent;
+        }
 
-/* Chrome, Edge, Safari */
-::-webkit-scrollbar {
-  width: 8px;
-}
+        /* Chrome, Edge, Safari */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
 
-::-webkit-scrollbar-thumb {
-  background-color: rgba(34, 197, 94, 0.6);
-  border-radius: 999px;
-  border: 2px solid transparent;
-  background-clip: content-box;
-}
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(34, 197, 94, 0.6);
+            border-radius: 999px;
+            border: 2px solid transparent;
+            background-clip: content-box;
+        }
 
-::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(34, 197, 94, 0.85);
-}
-</style>
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(34, 197, 94, 0.85);
+        }
+    </style>
 
 </head>
 
@@ -71,18 +72,39 @@
 
     <main class="max-w-5xl mx-auto px-4 py-10">
 
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-4">
+            <div class="flex gap-3">
+                <a href="/profile/profileimageupload" class="group relative h-14 w-14 rounded-md overflow-hidden">
 
-            <h3 class="text-2xl md:text-3xl">
-                Hello,
-                <span class="text-green-400 font-bold tracking-tight">
-                    <%= user.name %>
-                </span>
-            </h3>
+                    <!-- Profile Image -->
+                    <img src="<%= user.profileImage %>" alt="Profile Image"
+                        class="h-full w-full object-cover transition duration-300 group-hover:scale-105">
+
+                    <!-- Hover Overlay -->
+                    <div class="absolute inset-0 bg-black/40 opacity-0 
+               group-hover:opacity-100 
+               flex items-center justify-center
+               transition duration-300">
+                        <!-- Pencil Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white opacity-80" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M15.232 5.232l3.536 3.536M9 11l6.232-6.232a2.5 2.5 0 013.536 3.536L12.536 14.536a2.5 2.5 0 01-1.768.732H8v-2.768a2.5 2.5 0 01.732-1.768z" />
+                        </svg>
+                    </div>
+
+                </a>
+
+                <h3 class="text-2xl md:text-3xl">
+                    Hello,
+                    <span class="text-green-400 font-bold tracking-tight">
+                        <%= user.name %>
+                    </span>
+                </h3>
+            </div>
 
             <div class="flex gap-4">
-                <a href="/feed"
-                   class="px-4 py-2 bg-yellow-500 text-zinc-900 font-bold rounded-md
+                <a href="/feed" class="px-4 py-2 bg-yellow-500 text-zinc-900 font-bold rounded-md
                           transition-all duration-300 ease-out
                           hover:scale-105 hover:brightness-110
                           hover:shadow-[0_0_40px_rgba(234,179,8,0.8)]
@@ -90,9 +112,7 @@
                     Explore Feed
                 </a>
 
-                <a href="/logout"
-                   onclick="return confirm('Do you really want to Logout?')"
-                   class="px-4 py-2 bg-red-600 text-zinc-900 font-bold rounded-md
+                <a href="/logout" onclick="return confirm('Do you really want to Logout?')" class="px-4 py-2 bg-red-600 text-zinc-900 font-bold rounded-md
                           transition-all duration-300 ease-out
                           hover:scale-105 hover:brightness-110
                           hover:shadow-[0_0_30px_rgba(239,68,68,0.75)]
@@ -106,27 +126,18 @@
             <h5 class="text-zinc-300 mb-4">Create a new post</h5>
 
             <div class="bg-zinc-800 border border-zinc-700 rounded-xl p-5 max-w-xl">
-                <form action="/post" method="POST">
-                    <textarea
-                        name="content"
-                        placeholder="What's on your mind?"
-                        required
-                        minlength="1"
-                        class="w-full p-3 mb-4 bg-transparent border border-zinc-700 rounded-md
+                <form action="/post" method="POST" enctype="multipart/form-data">
+                    <textarea name="content" placeholder="What's on your mind?" required minlength="1" class="w-full p-3 mb-4 bg-transparent border border-zinc-700 rounded-md
                                outline-none resize-none text-zinc-200
-                               focus:border-green-500 transition"
-                    ></textarea>
+                               focus:border-green-500 transition"></textarea>
 
-                    <input
-                        type="submit"
-                        value="Create Post"
-                        id="postBtn"
-                        class="bg-green-500 text-zinc-900 font-bold px-4 py-2 rounded-md
+                    <input type="file" name="image" accept="image/*" class="mb-4 text-zinc-400">
+
+                    <input type="submit" value="Create Post" id="postBtn" class="bg-green-500 text-zinc-900 font-bold px-4 py-2 rounded-md
                                transition-all duration-300 ease-out
                                hover:scale-105 hover:brightness-110
                                hover:shadow-[0_0_30px_rgba(34,197,94,0.6)]
-                               active:scale-95"
-                    >
+                               active:scale-95">
                 </form>
             </div>
         </section>
@@ -138,53 +149,60 @@
 
                 <% user.posts.reverse().forEach(function(post){ %>
 
-                <div class="bg-zinc-800 border border-zinc-700 rounded-xl p-5
+                    <div class="bg-zinc-800 border border-zinc-700 rounded-xl p-5
                             transition-all duration-300
                             hover:-translate-y-1 hover:border-zinc-600">
 
-                    <div class="mb-3">
-                        <span class="text-green-400 font-bold">
-                            @<%= user.username %>
-                        </span>
-                    </div>
+                        <div class="mb-3">
+                            <span class="text-green-400 font-bold">
+                                @<%= user.username %>
+                            </span>
+                        </div>
 
-                    <p class="text-zinc-300 leading-relaxed mb-4">
-                        <%= post.content %>
-                    </p>
+                        <div class="flex gap-5 md:flex-row flex-col items-center md:items-start mb-5 ">
 
-                    <div class="flex items-center gap-6 text-sm">
+                            <% if (post.image) { %>
+                                <div class="h-80 w-80 bg-red-500 rounded-md overflow-hidden">
+                                    <img class="h-full w-full object-cover" src="<%= post.image %>" alt="">
+                                </div>
+                                <% } %>
 
-                        <a href="/like/<%= post._id %>"
-                           class="font-semibold
+                                    <p class="text-zinc-300 leading-relaxed mb-4">
+                                        <%= post.content %>
+                                    </p>
+                        </div>
+
+                        <div class="flex items-center gap-6 text-sm">
+
+                            <a href="/like/<%= post._id %>" class="font-semibold
                                   transition-all duration-200
                                   <%= post.likes.indexOf(user._id) === -1 
                                       ? 'text-zinc-400 hover:text-pink-500' 
                                       : 'text-pink-500' %>
                                   hover:scale-105">
-                            ♥ <%= post.likes.length %>
-                        </a>
+                                ♥ <%= post.likes.length %>
+                            </a>
 
-                        <a href="/edit/<%= post._id %>"
-                           class="text-zinc-400 hover:text-green-400 transition">
-                            Edit
-                        </a>
+                            <a href="/edit/<%= post._id %>" class="text-zinc-400 hover:text-green-400 transition">
+                                Edit
+                            </a>
 
-                        <a href="/delete/<%= post._id %>"
-                           onclick="return confirm('Do you really want to DELETE this Post?')"
-                           class="text-red-500 hover:text-red-400 transition">
-                            Delete
-                        </a>
+                            <a href="/delete/<%= post._id %>"
+                                onclick="return confirm('Do you really want to DELETE this Post?')"
+                                class="text-red-500 hover:text-red-400 transition">
+                                Delete
+                            </a>
 
+                        </div>
                     </div>
-                </div>
 
-                <% }) %>
+                    <% }) %>
 
-                <% if(user.posts.length === 0){ %>
-                    <div class="text-zinc-500 text-center mt-10">
-                        You haven’t posted anything yet.
-                    </div>
-                <% } %>
+                        <% if(user.posts.length===0){ %>
+                            <div class="text-zinc-500 text-center mt-10">
+                                You haven’t posted anything yet.
+                            </div>
+                            <% } %>
 
             </div>
         </section>
@@ -195,14 +213,14 @@
 
 
 <script>
-  const form = document.querySelector("form");
-  const btn = document.getElementById("postBtn");
+    const form = document.querySelector("form");
+    const btn = document.getElementById("postBtn");
 
-  form.addEventListener("submit", () => {
-    btn.value = "Posting...";
-    btn.disabled = true;
-    btn.classList.add("opacity-70", "cursor-not-allowed");
-  });
+    form.addEventListener("submit", () => {
+        btn.value = "Posting...";
+        btn.disabled = true;
+        btn.classList.add("opacity-70", "cursor-not-allowed");
+    });
 </script>
 
 </html>

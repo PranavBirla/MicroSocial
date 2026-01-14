@@ -9,6 +9,8 @@ const app = express();
 const mongoose = require("mongoose");
 const path = require('path');
 const PORT = process.env.PORT || 3000;
+const upload = require('./config/multerconfig');
+const uploadToCloudinary = require("./utils/uploadToCloudinary");
 
 
 mongoose.connect(process.env.MONGO_URI)
@@ -21,21 +23,45 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get("/", isGuest, (req, res) => {
+app.get("/",  (req, res) => {
     res.render("index");
 });
 
-app.get("/create", isGuest, (req, res) => {
+app.get("/create",  (req, res) => {
     res.render("create")
 })
 
-app.get("/login", isGuest, (req, res) => {
+app.get("/profile/image", isLoggedIn, async (req, res) => {
+    let user = await userModel.findOne({ email: req.user.email });
+    res.render("profileimage", ({ user }));
+});
+
+
+app.get("/profile/profileimageupload", isLoggedIn, async (req, res) => {
+    let user = await userModel.findOne({ email: req.user.email });
+    res.render("profileimage", ({ user }));
+});
+
+app.post("/profile/image", isLoggedIn, upload.single("image"), async (req, res, next) => {
+    console.log("REQ.FILE =", req.file);
+    try {
+        const result = await uploadToCloudinary(req.file.buffer, "microsocial/profile");
+        await userModel.findOneAndUpdate({email: req.user.email}, { profileImage: result.secure_url });
+        res.redirect("/profile");
+    } catch (err) {
+        console.log(err)
+        next(err);
+    }
+}
+);
+
+app.get("/login",  (req, res) => {
     res.render("login");
 });
 
 app.get("/profile", isLoggedIn, async (req, res) => {
     let user = await userModel.findOne({ email: req.user.email }).populate("posts");
-    res.render("profile", { user });
+    res.render("profile", { user});
 });
 
 app.get("/like/:id", isLoggedIn, async (req, res) => {
@@ -87,19 +113,34 @@ app.get("/delete/:id", isLoggedIn, async (req, res) => {
     res.redirect("/profile");
 });
 
-app.post("/post", isLoggedIn, async (req, res) => {
+app.post("/post", isLoggedIn, upload.single("image"), async (req, res, next) => {
     let user = await userModel.findOne({ email: req.user.email });
     let { content } = req.body;
 
-    let post = await postModel.create({
-        user: user._id,
-        content
-    });
+    try {
+        let imageUrl = "";
 
-    user.posts.push(post._id);
-    await user.save();
-    res.redirect("/profile");
+        if (req.file) {
+            const result = await uploadToCloudinary( req.file.buffer, "microsocial/posts");
+            imageUrl = result.secure_url;
+        }
+
+        let post = await postModel.create({
+            user: user._id,
+            content,
+            image: imageUrl
+        });
+
+        await userModel.findOneAndUpdate({email: req.user.email}, {
+            $push: { posts: post._id }
+        });
+
+        res.redirect("/profile");
+    } catch (err) {
+        next(err);
+    }
 });
+
 
 app.post("/register", async (req, res) => {
     let { username, name, email, age, password } = req.body;
