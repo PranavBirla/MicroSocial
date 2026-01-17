@@ -24,6 +24,18 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+
+app.post("/debug-upload", upload.single("image"), (req, res) => {
+  console.log("CONTENT-TYPE:", req.headers["content-type"]);
+  console.log("REQ.FILE:", req.file);
+  console.log("REQ.BODY:", req.body);
+  res.send("Check Railway logs");
+});
+
+app.get("/temp", (req, res) => {
+    res.render("temp");
+});
+
 app.get("/", isGuest, (req, res) => {
     res.render("index");
 });
