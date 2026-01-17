@@ -76,16 +76,14 @@
             <div class="flex gap-3">
                 <a href="/profile/profileimageupload" class="group relative h-14 w-14 rounded-md overflow-hidden">
 
-                    <!-- Profile Image -->
                     <img src="<%= user.profileImage %>" alt="Profile Image"
                         class="h-full w-full object-cover transition duration-300 group-hover:scale-105">
 
-                    <!-- Hover Overlay -->
                     <div class="absolute inset-0 bg-black/40 opacity-0 
                group-hover:opacity-100 
                flex items-center justify-center
                transition duration-300">
-                        <!-- Pencil Icon -->
+
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white opacity-80" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -127,11 +125,11 @@
 
             <div class="bg-zinc-800 border border-zinc-700 rounded-xl p-5 max-w-xl">
                 <form action="/post" method="POST" enctype="multipart/form-data">
-                    <textarea name="content" placeholder="Write the text here!" required minlength="1" class="w-full p-3 mb-4 bg-transparent border border-zinc-700 rounded-md
+                    <textarea name="content" placeholder="Write the text here!" minlength="1" class="w-full p-3 mb-4 bg-transparent border border-zinc-700 rounded-md
                                outline-none resize-none text-zinc-200
                                focus:border-green-500 transition"></textarea>
 
-                    <input type="file" name="image" id="imageInput" accept="image/*" class="hidden" required>
+                    <input type="file" name="image" id="imageInput" accept="image/*" class="hidden">
 
                     <label for="imageInput" class="cursor-pointer inline-flex items-center justify-center
                px-4 py-2 rounded-md
@@ -266,8 +264,9 @@
         previewImage.src = URL.createObjectURL(file);
         previewWrapper.classList.remove("hidden");
     });
-</script>
 
+
+</script>
 
 
 </html>

@@ -17,17 +17,18 @@ mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log("MongoDB connected"))
     .catch(err => console.log(err));
 
-app.set("view engine", "ejs")
+app.set("view engine", "ejs");
+app.set("trust proxy", 1);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get("/", (req, res) => {
+app.get("/", isGuest, (req, res) => {
     res.render("index");
 });
 
-app.get("/create", (req, res) => {
+app.get("/create", isGuest, (req, res) => {
     res.render("create")
 })
 
@@ -55,7 +56,7 @@ app.post("/profile/image", isLoggedIn, upload.single("image"), async (req, res, 
 }
 );
 
-app.get("/login", (req, res) => {
+app.get("/login", isGuest, (req, res) => {
     res.render("login");
 });
 
@@ -124,6 +125,13 @@ app.post("/post", isLoggedIn, upload.single("image"), async (req, res, next) => 
             const result = await uploadToCloudinary(req.file.buffer, "microsocial/posts");
             imageUrl = result.secure_url;
         }
+
+        if (!content && !req.file) {
+            return res.status(400).render("postUploadError", {
+                error: "Post must contain text or an image"
+            });
+        }
+
 
         let post = await postModel.create({
             user: user._id,
@@ -268,13 +276,6 @@ app.get("/500", (req, res) => {
     res.render("500");
 });
 
-
-
-app.listen(PORT, () => {
-    console.log("Server running on port", PORT);
-});
-
-
 app.use((req, res) => {
     res.status(404).render("404");
 });
@@ -284,3 +285,10 @@ app.use((err, req, res, next) => {
 
     res.status(500).render("500");
 });
+
+
+app.listen(PORT, () => {
+    console.log("Server running on port", PORT);
+});
+
+
